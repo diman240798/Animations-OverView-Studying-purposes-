@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.TextView
 import app.quiz.sfedu.quiz_app.R
 import app.quiz.sfedu.quiz_app.db_model.QuestionModel
@@ -26,7 +28,7 @@ class TestFragment() : Fragment(), View.OnClickListener {
     // Fields
     private val tagKey: Int = R.string.tag_key
     private var rightAnswer: Int = 0
-    private lateinit var question: QuestionModel
+    private var question: QuestionModel? = null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -47,7 +49,8 @@ class TestFragment() : Fragment(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
         configureViews()
-        setData(question)
+        if (question != null)
+            setData(question)
 
     }
 
@@ -62,13 +65,41 @@ class TestFragment() : Fragment(), View.OnClickListener {
         answer_4.setOnClickListener(this)
     }
 
-    fun setData(question: QuestionModel) {
-        rightAnswer = question.answerNumber
-        this.questionUI.text = question.question
-        answer_1.text = question.answers[0]
-        answer_2.text = question.answers[1]
-        answer_3.text = question.answers[2]
-        answer_4.text = question.answers[3]
+    fun setData(question: QuestionModel?) {
+        if (question != null) {
+            rightAnswer = question.answerNumber
+            this.questionUI.text = question.question
+
+
+            val animation = AnimationUtils.loadAnimation(context, R.anim.fade_in_quick)
+
+            questionUI.startAnimation(animation)
+            questionUI.animation.setAnimationListener(
+                object : Animation.AnimationListener {
+                    override fun onAnimationRepeat(animation: Animation?) {
+                    }
+
+                    override fun onAnimationEnd(animation: Animation?) {
+                        val animation = AnimationUtils.loadAnimation(context, R.anim.fade_in_quick)
+
+                        answer_1.text = question.answers[0]
+                        answer_2.text = question.answers[1]
+                        answer_3.text = question.answers[2]
+                        answer_4.text = question.answers[3]
+
+                        answer_1.startAnimation(animation)
+                        answer_2.startAnimation(animation)
+                        answer_3.startAnimation(animation)
+                        answer_4.startAnimation(animation)
+                    }
+
+                    override fun onAnimationStart(animation: Animation?) {
+
+                    }
+                }
+            )
+
+        }
     }
 
     override fun onClick(v: View?) {
@@ -109,5 +140,6 @@ class TestFragment() : Fragment(), View.OnClickListener {
 
     fun setQuestion(question: QuestionModel) {
         this.question = question
+        setData(question)
     }
 }
