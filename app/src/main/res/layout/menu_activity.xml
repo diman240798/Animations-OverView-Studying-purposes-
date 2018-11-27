@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
+        android:animateLayoutChanges="true"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent" android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center_horizontal">
+
 
 
     <android.support.v7.widget.RecyclerView
@@ -12,8 +14,14 @@
             android:foregroundGravity="center_horizontal"
             android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"/>
+    <ImageView
+            android:scaleType="fitXY"
+            android:src="@drawable/cpp_header_big"
+            android:visibility="gone"
+            android:id="@+id/menu_image_to_reveal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="image to reveal"/>
 
-    </android.support.v7.widget.RecyclerView>
-
-</LinearLayout>
+</FrameLayout>

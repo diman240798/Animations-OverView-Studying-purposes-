@@ -63,11 +63,6 @@ class TestActivity : AppCompatActivity() {
 
         }
 
-        /*val motionLayout = testActivityMotionContainer as MotionLayout
-        motionLayout.setOnClickListener {
-            motionLayout.transitionToEnd()
-        }*/
-
     }
 
 }
