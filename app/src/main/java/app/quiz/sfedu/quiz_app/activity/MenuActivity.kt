@@ -1,6 +1,5 @@
 package app.quiz.sfedu.quiz_app.activity
 
-import android.animation.Animator
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
@@ -49,10 +48,36 @@ class MenuActivity : AppCompatActivity() {
     }
 
     fun setLanguage(it : View) {
+
+        val id = it.id;
+        var color = R.color.orange
+        var drawable = resources.getDrawable(R.drawable.ripple_orange)
+
+        when (id) {
+            menu_bottom_cpp_iv.id -> {
+                color = R.color.orange
+                drawable = resources.getDrawable(R.drawable.ripple_orange)
+            }
+            menu_bottom_cpp_java.id -> {
+                color = R.color.red
+                drawable = resources.getDrawable(R.drawable.ripple_red)
+
+            }
+            menu_bottom_cpp_python.id -> {
+                color = R.color.green
+                drawable = resources.getDrawable(R.drawable.ripple_green)
+
+            }
+        }
+        TransitionManager.beginDelayedTransition(menu_container)
+        menu_sign_place_holder.setContentId(it.id)
         it.postDelayed({
-            TransitionManager.beginDelayedTransition(menu_container)
-            menu_sign_place_holder.setContentId(it.id)
-        }, 50)
+            menu_tool_bar.setBackgroundResource(color)
+            val Color = resources.getColor(color)
+
+            window.statusBarColor = Color
+            itemsApapter.changeColor(Color, drawable)
+        }, 400)
     }
 
     override fun onBackPressed() {

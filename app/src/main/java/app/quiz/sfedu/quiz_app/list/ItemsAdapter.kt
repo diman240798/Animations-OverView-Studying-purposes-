@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
+import android.graphics.drawable.Drawable
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -36,10 +37,19 @@ class ItemsAdapter(
 
     private var anim: Animator? = null
 
+    private var color: Int? = null
+
+    private var drawble: Drawable? = null
+
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
         val testNumber = items[position].testNumber;
         val textView = holder.start_test_tw
-        textView.text = testNumber.toString();
+        textView.text = testNumber.toString()
+        if (color != null)
+            textView.setTextColor(color!!)
+        if (drawble != null)
+            textView.background = drawble
+
         textView.setOnClickListener {
             val originalPos = IntArray(2)
             textView.getLocationInWindow(originalPos)
@@ -48,8 +58,10 @@ class ItemsAdapter(
             val cy = originalPos[1] + 20
             val startRadius = 0
             // get the final radius for the clipping circle
-            val finalRadius = Math.max(Resources.getSystem().getDisplayMetrics().heightPixels,
-                Resources.getSystem().getDisplayMetrics().widthPixels).toFloat()
+            val finalRadius = Math.max(
+                Resources.getSystem().getDisplayMetrics().heightPixels,
+                Resources.getSystem().getDisplayMetrics().widthPixels
+            ).toFloat()
 
 
             anim = ViewAnimationUtils.createCircularReveal(imageToReveal, cx, cy, 0f, finalRadius)
@@ -84,6 +96,12 @@ class ItemsAdapter(
             }, 280)
 
         }
+    }
+
+    fun changeColor(color: Int?, drawable: Drawable) {
+        this.color = color
+        this.drawble = drawable
+        notifyDataSetChanged()
     }
 
 }

@@ -17,7 +17,7 @@
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             tools:text="1"
-            android:background="@drawable/ripple"
+            android:background="@drawable/ripple_orange"
             android:textColor="#cc5b10"
             android:textSize="30sp"
             android:id="@+id/menu_start_test_tw"
