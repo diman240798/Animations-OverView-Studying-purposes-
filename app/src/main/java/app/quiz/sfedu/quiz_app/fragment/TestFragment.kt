@@ -29,7 +29,7 @@ class TestFragment() : Fragment(), View.OnClickListener {
     private val tagKey: Int = R.string.tag_key
     private var rightAnswer: Int = 0
     private var question: QuestionModel? = null
-
+    private var color: Int = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = LayoutInflater.from(context).inflate(R.layout.test_layout, container, false)
@@ -48,6 +48,11 @@ class TestFragment() : Fragment(), View.OnClickListener {
         answer_2 = view.findViewById<TextView>(R.id.test_answer_2_tw)
         answer_3 = view.findViewById<TextView>(R.id.test_answer_3_tw)
         answer_4 = view.findViewById<TextView>(R.id.test_answer_4_tw)
+
+        view.findViewById<View>(R.id.divider1).setBackgroundColor(color)
+        view.findViewById<View>(R.id.divider2).setBackgroundColor(color)
+        view.findViewById<View>(R.id.divider3).setBackgroundColor(color)
+        view.findViewById<View>(R.id.divider4).setBackgroundColor(color)
 
     }
 
@@ -138,5 +143,9 @@ class TestFragment() : Fragment(), View.OnClickListener {
     fun setQuestion(question: QuestionModel) {
         this.question = question
         setData(question)
+    }
+
+    fun setColor(color: Int) {
+        this.color = color
     }
 }

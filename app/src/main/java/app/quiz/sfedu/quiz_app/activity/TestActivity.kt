@@ -14,11 +14,21 @@ class TestActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.test_activity)
 
+        val extras = intent.extras
+        val number = extras.getInt("number")
+        val color = extras.getInt("color")
+
+        window.statusBarColor = color
+
+
+
         val testFragment = TestFragment()
+        testFragment.setColor(color)
 
         supportFragmentManager
             .beginTransaction()
             .add(R.id.test_root_lay, testFragment)
+            .setCustomAnimations(android.R.animator.fade_out, android.R.animator.fade_in)
             .commit();
 
         val motionLayout = testActivityMotionContainer as MotionLayout

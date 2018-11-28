@@ -51,21 +51,24 @@ class MenuActivity : AppCompatActivity() {
 
         val id = it.id;
         var color = R.color.orange
-        var drawable = resources.getDrawable(R.drawable.ripple_orange)
+        var drawable = R.drawable.ripple_orange
 
         when (id) {
             menu_bottom_cpp_iv.id -> {
+                menu_image_to_reveal.setImageResource(R.drawable.cpp_header_big)
                 color = R.color.orange
-                drawable = resources.getDrawable(R.drawable.ripple_orange)
+                drawable = R.drawable.ripple_orange
             }
             menu_bottom_cpp_java.id -> {
+                menu_image_to_reveal.setImageResource(R.drawable.java_header_big)
                 color = R.color.red
-                drawable = resources.getDrawable(R.drawable.ripple_red)
+                drawable = R.drawable.ripple_red
 
             }
             menu_bottom_cpp_python.id -> {
+                menu_image_to_reveal.setImageResource(R.drawable.python_header_big)
                 color = R.color.green
-                drawable = resources.getDrawable(R.drawable.ripple_green)
+                drawable = R.drawable.ripple_green
 
             }
         }

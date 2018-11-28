@@ -37,18 +37,16 @@ class ItemsAdapter(
 
     private var anim: Animator? = null
 
-    private var color: Int? = null
-
-    private var drawble: Drawable? = null
+    var color = context.resources.getColor(R.color.orange)
+    var drawable = R.drawable.ripple_orange
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
         val testNumber = items[position].testNumber;
         val textView = holder.start_test_tw
         textView.text = testNumber.toString()
-        if (color != null)
-            textView.setTextColor(color!!)
-        if (drawble != null)
-            textView.background = drawble
+
+        textView.setTextColor(color)
+        textView.setBackgroundResource(drawable)
 
         textView.setOnClickListener {
             val originalPos = IntArray(2)
@@ -77,6 +75,7 @@ class ItemsAdapter(
                     override fun onAnimationEnd(animation: Animator?) {
                         val intent = Intent(context, TestActivity::class.java)
                         intent.putExtra("number", testNumber)
+                        intent.putExtra("color", color)
                         context.startActivity(intent)
                         imageToReveal.postDelayed({ imageToReveal.visibility = View.GONE }, 600)
 
@@ -98,9 +97,9 @@ class ItemsAdapter(
         }
     }
 
-    fun changeColor(color: Int?, drawable: Drawable) {
+    fun changeColor(color: Int, drawable: Int) {
         this.color = color
-        this.drawble = drawable
+        this.drawable = drawable
         notifyDataSetChanged()
     }
 
