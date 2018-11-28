@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.transition.TransitionManager
+import android.view.View
 import app.quiz.sfedu.quiz_app.R
 import app.quiz.sfedu.quiz_app.list.Item
 import app.quiz.sfedu.quiz_app.list.ItemsAdapter
@@ -44,6 +46,13 @@ class MenuActivity : AppCompatActivity() {
         val spacing = 50 // 50px
         val includeEdge = true
         recyclerView.addItemDecoration(GridSpacingItemDecoration(spanCount, spacing, includeEdge))*/
+    }
+
+    fun setLanguage(it : View) {
+        it.postDelayed({
+            TransitionManager.beginDelayedTransition(menu_container)
+            menu_sign_place_holder.setContentId(it.id)
+        }, 50)
     }
 
     override fun onBackPressed() {
