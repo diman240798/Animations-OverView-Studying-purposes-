@@ -33,8 +33,13 @@ class TestFragment() : Fragment(), View.OnClickListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = LayoutInflater.from(context).inflate(R.layout.test_layout, container, false)
-        initViews(view)
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initViews(view)
+        configureViews()
     }
 
     private fun initViews(view: View) {
@@ -43,14 +48,6 @@ class TestFragment() : Fragment(), View.OnClickListener {
         answer_2 = view.findViewById<TextView>(R.id.test_answer_2_tw)
         answer_3 = view.findViewById<TextView>(R.id.test_answer_3_tw)
         answer_4 = view.findViewById<TextView>(R.id.test_answer_4_tw)
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        configureViews()
-        if (question != null)
-            setData(question)
 
     }
 
