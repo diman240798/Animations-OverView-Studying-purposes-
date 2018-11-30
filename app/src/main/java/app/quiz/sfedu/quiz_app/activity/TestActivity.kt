@@ -10,6 +10,10 @@ import app.quiz.sfedu.quiz_app.fragment.TestFragment
 import kotlinx.android.synthetic.main.test_activity.*
 
 class TestActivity : AppCompatActivity() {
+    private lateinit var testFragment: TestFragment
+
+    private lateinit var tests: List<TestModel>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.test_activity)
@@ -22,7 +26,7 @@ class TestActivity : AppCompatActivity() {
 
 
 
-        val testFragment = TestFragment()
+        testFragment = TestFragment()
         testFragment.setColor(color)
 
         supportFragmentManager
@@ -45,9 +49,21 @@ class TestActivity : AppCompatActivity() {
                             QuestionModel(
                                 1, "Are you dumb?",
                                 1, arrayOf("yes", "yes", "yes", "yes")
+                            ),
+                            QuestionModel(
+                                2, "Are you Smart?",
+                                1, arrayOf("no", "no", "no", "no")
+                            ),
+                            QuestionModel(
+                                1, "Are you dumb?",
+                                1, arrayOf("yes", "yes", "yes", "yes")
+                            ),
+                            QuestionModel(
+                                1, "Are you dumb?",
+                                1, arrayOf("yes", "yes", "yes", "yes")
                             )
                         )
-                        var tests = listOf<TestModel>(TestModel(1, questionsFake))
+                        tests = listOf<TestModel>(TestModel(1, questionsFake))
                         var test = tests.get(0)
                         val questions = test.questions
                         var question = questions[0]
@@ -66,11 +82,11 @@ class TestActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         test_back_bt.setOnClickListener {
-
+            testFragment.setQuestion(tests.get(0).questions[0])
         }
 
         test_next_bt.setOnClickListener {
-
+            testFragment.setQuestion(tests.get(0).questions[1])
         }
 
     }

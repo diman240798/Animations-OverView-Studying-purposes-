@@ -1,5 +1,6 @@
 package app.quiz.sfedu.quiz_app.fragment
 
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -30,6 +31,7 @@ class TestFragment() : Fragment(), View.OnClickListener {
     private var rightAnswer: Int = 0
     private var question: QuestionModel? = null
     private var color: Int = 0
+    var hashMap = mutableMapOf<Int, Boolean>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = LayoutInflater.from(context).inflate(R.layout.test_layout, container, false)
@@ -89,6 +91,15 @@ class TestFragment() : Fragment(), View.OnClickListener {
                         answer_3.text = question.answers[2]
                         answer_4.text = question.answers[3]
 
+                        questionUI.postDelayed({
+                            val questionWasAnswered = hashMap.get(question.id)
+                            setDefaultColors()
+                            if (questionWasAnswered != null && questionWasAnswered) {
+                                disableClicks()
+                            } else
+                                enableClicks()
+                        }, 300)
+
                         answer_1.startAnimation(animation)
                         answer_2.startAnimation(animation)
                         answer_3.startAnimation(animation)
@@ -104,17 +115,24 @@ class TestFragment() : Fragment(), View.OnClickListener {
         }
     }
 
+    private var textColors: ColorStateList? = null
+
     override fun onClick(v: View?) {
         val tag = v?.getTag(tagKey) as Int
+        hashMap.put(question?.id!!, true)
+        textColors = answer_1.textColors
+        question!!.chosenAnswer = tag
+        setAnswersColors(tag)
+        disableClicks()
+    }
 
+    private fun setAnswersColors(tag: Int) {
         if (tag == rightAnswer) {
             setTextColor(tag, Color.GREEN)
         } else {
             setTextColor(tag, Color.RED)
             setTextColor(rightAnswer, Color.GREEN)
         }
-        disableClicks()
-
     }
 
     private fun disableClicks() {
@@ -122,6 +140,11 @@ class TestFragment() : Fragment(), View.OnClickListener {
         answer_2.isEnabled = false
         answer_3.isEnabled = false
         answer_4.isEnabled = false
+
+        var chosenId = question!!.chosenAnswer
+        setAnswersColors(chosenId)
+
+
     }
 
     private fun enableClicks() {
@@ -129,6 +152,17 @@ class TestFragment() : Fragment(), View.OnClickListener {
         answer_2.isEnabled = true
         answer_3.isEnabled = true
         answer_4.isEnabled = true
+
+        setDefaultColors()
+    }
+
+    private fun setDefaultColors() {
+        if (textColors != null) {
+            answer_1.setTextColor(textColors)
+            answer_2.setTextColor(textColors)
+            answer_3.setTextColor(textColors)
+            answer_4.setTextColor(textColors)
+        }
     }
 
     private fun setTextColor(tag: Int, color: Int) {
@@ -148,4 +182,5 @@ class TestFragment() : Fragment(), View.OnClickListener {
     fun setColor(color: Int) {
         this.color = color
     }
+
 }

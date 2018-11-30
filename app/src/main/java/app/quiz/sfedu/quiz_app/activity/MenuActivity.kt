@@ -6,12 +6,12 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.transition.TransitionManager
 import android.view.View
+import android.widget.GridLayout.VERTICAL
+import android.widget.ImageView
 import app.quiz.sfedu.quiz_app.R
 import app.quiz.sfedu.quiz_app.list.Item
 import app.quiz.sfedu.quiz_app.list.ItemsAdapter
 import kotlinx.android.synthetic.main.menu_activity.*
-import android.widget.GridLayout.VERTICAL
-import android.widget.ImageView
 
 
 class MenuActivity : AppCompatActivity() {
@@ -25,11 +25,15 @@ class MenuActivity : AppCompatActivity() {
         Item(7), Item(8)
     )
 
+    var color = R.color.orange
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppThemeNoActionBar)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.menu_activity)
+
+        menu_sign_place_holder.setContentId(R.id.menu_bottom_cpp_iv)
 
         val imageToReveal = findViewById<ImageView>(R.id.menu_image_to_reveal)
         itemsApapter = ItemsAdapter(this, imageToReveal)
@@ -47,36 +51,47 @@ class MenuActivity : AppCompatActivity() {
         recyclerView.addItemDecoration(GridSpacingItemDecoration(spanCount, spacing, includeEdge))*/
     }
 
-    fun setLanguage(it : View) {
+    fun setLanguage(it: View) {
 
         val id = it.id;
-        var color = R.color.orange
         var drawable = R.drawable.ripple_orange
+        var colorStatus = R.color.orange_status
+
 
         when (id) {
             menu_bottom_cpp_iv.id -> {
+                val orange = R.color.orange
+                if (color == orange)
+                    return
                 menu_image_to_reveal.setImageResource(R.drawable.cpp_header_big)
-                color = R.color.orange
+                color = orange
                 drawable = R.drawable.ripple_orange
+                colorStatus = R.color.orange_status
             }
             menu_bottom_cpp_java.id -> {
+                val red = R.color.red
+                if (color == red)
+                    return
                 menu_image_to_reveal.setImageResource(R.drawable.java_header_big)
-                color = R.color.red
+                color = red
                 drawable = R.drawable.ripple_red
-
+                colorStatus = R.color.red_status
             }
             menu_bottom_cpp_python.id -> {
+                val green = R.color.green
+                if (color == green)
+                    return
                 menu_image_to_reveal.setImageResource(R.drawable.python_header_big)
-                color = R.color.green
+                color = green
                 drawable = R.drawable.ripple_green
-
+                colorStatus = R.color.green_status
             }
         }
         TransitionManager.beginDelayedTransition(menu_container)
         menu_sign_place_holder.setContentId(it.id)
         it.postDelayed({
             menu_tool_bar.setBackgroundResource(color)
-            val Color = resources.getColor(color)
+            val Color = resources.getColor(colorStatus)
 
             window.statusBarColor = Color
             itemsApapter.changeColor(Color, drawable)

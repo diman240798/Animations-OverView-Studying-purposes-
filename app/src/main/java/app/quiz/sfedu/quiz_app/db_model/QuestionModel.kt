@@ -6,5 +6,7 @@ open class QuestionModel(
     var id: Int,
     var question: String,
     var answerNumber: Int,
-    var answers: Array<String>
-) : RealmObject()
+    var answers: Array<String>,
+    var chosenAnswer: Int = -1
+) : RealmObject() {
+}

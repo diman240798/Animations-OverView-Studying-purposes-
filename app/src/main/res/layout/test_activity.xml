@@ -3,7 +3,8 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/testActivityMotionContainer" app:layoutDescription="@xml/test_activity_scene"
+        android:id="@+id/testActivityMotionContainer"
+        app:layoutDescription="@xml/test_activity_scene"
         tools:context=".activity.TestActivity"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

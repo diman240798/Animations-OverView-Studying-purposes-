@@ -7,7 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-    <style name="AppTheme.NoActionBar">
+    <style name="AppThemeNoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowTranslucentStatus">true</item>
@@ -16,8 +16,15 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
     <style name="test_answer_style">
+
         <item name="android:textSize">15sp</item>
         <item name="android:padding">20dp</item>
+    </style>
+
+    <style name="AppTheme.Launcher">
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+        <!-- для Android 5+ вы можете поменять цвет colorPrimaryDark, чтобы соответствовать цвету windowBackground -->
+        <!-- <item name="colorPrimaryDark">@android:color/white</item> -->
     </style>
 
 </resources>
