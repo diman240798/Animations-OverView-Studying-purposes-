@@ -1,5 +1,5 @@
 <resources>
-    <style name="AppThemeNoActionBar" parent="@style/Theme.AppCompat.Light">
+    <style name="AppThemeNoActionBar" parent="@style/Theme.MaterialComponents.Light.NoActionBar">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowFullscreen">false</item>

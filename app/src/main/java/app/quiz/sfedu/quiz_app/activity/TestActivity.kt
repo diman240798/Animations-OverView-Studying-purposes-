@@ -2,6 +2,8 @@ package app.quiz.sfedu.quiz_app.activity
 
 import android.os.Bundle
 import android.support.constraint.motion.MotionLayout
+import android.support.design.button.MaterialButton
+import android.support.v4.widget.TextViewCompat
 import android.support.v7.app.AppCompatActivity
 import app.quiz.sfedu.quiz_app.R
 import app.quiz.sfedu.quiz_app.db_model.QuestionModel
@@ -37,13 +39,13 @@ class TestActivity : AppCompatActivity() {
 
         val motionLayout = testActivityMotionContainer as MotionLayout
         motionLayout.setTransitionListener(
-            object: MotionLayout.TransitionListener {
+            object : MotionLayout.TransitionListener {
                 override fun onTransitionChange(p0: MotionLayout?, startId: Int, endId: Int, progress: Float) {
 
                 }
 
                 override fun onTransitionCompleted(p0: MotionLayout?, currentId: Int) {
-                    if(currentId == R.id.ending_set) {
+                    if (currentId == R.id.ending_set) {
                         // load fake Data
                         var questionsFake = arrayOf(
                             QuestionModel(
@@ -76,7 +78,6 @@ class TestActivity : AppCompatActivity() {
         motionLayout.transitionToEnd()
 
 
-
     }
 
     override fun onResume() {
@@ -88,7 +89,11 @@ class TestActivity : AppCompatActivity() {
         test_next_bt.setOnClickListener {
             testFragment.setQuestion(tests.get(0).questions[1])
         }
+        test_next_bt.setRightIcon()
+    }
 
+    fun MaterialButton.setRightIcon() {
+        TextViewCompat.setCompoundDrawablesRelative(this, null, null, this.icon, null)
     }
 
 }

@@ -25,7 +25,10 @@
             android:id="@+id/test_buttons_lay"
             android:layout_width="0dp"
             android:layout_height="wrap_content">
-        <TextView
+        <android.support.design.button.MaterialButton
+                app:iconSize="12dp"
+                app:icon="@drawable/arrow_previous"
+                android:backgroundTint="@color/orange_status"
                 android:textSize="25sp"
                 android:textColor="#000"
                 android:gravity="center"
@@ -37,7 +40,10 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintEnd_toStartOf="@+id/test_next_bt"
                 app:layout_constraintBottom_toBottomOf="parent"/>
-        <TextView
+        <android.support.design.button.MaterialButton
+                app:icon="@drawable/arrow_next"
+                app:iconSize="12dp"
+                android:backgroundTint="@color/orange_status"
                 android:textSize="25sp"
                 android:textColor="#000"
                 android:gravity="center"

@@ -111,7 +111,7 @@ class MenuActivity : AppCompatActivity(), ImageRevealer {
     }
 
     override fun onBackPressed() {
-        if (anim!!.isRunning)
+        if (anim != null)
             return
         super.onBackPressed()
     }
