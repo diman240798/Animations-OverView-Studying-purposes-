@@ -111,7 +111,8 @@ class MenuActivity : AppCompatActivity(), ImageRevealer {
     }
 
     override fun onBackPressed() {
-        anim?.removeAllListeners()
+        if (anim!!.isRunning)
+            return
         super.onBackPressed()
     }
 
@@ -119,6 +120,9 @@ class MenuActivity : AppCompatActivity(), ImageRevealer {
     private var defaultYBottom_IV: Float = 0F
 
     override fun revealImage(cx: Int, cy: Int, finalRadius: Float, testNumber: Int) {
+        if (anim != null)
+            return
+
         anim = ViewAnimationUtils.createCircularReveal(imageToReveal, cx, cy, 0f, finalRadius)
         anim?.duration = 2000
 
@@ -148,15 +152,13 @@ class MenuActivity : AppCompatActivity(), ImageRevealer {
                         findViewById<ImageView>(id).startAnimation(translateAnimationRestore)
                     }, 600)
 
+                    anim = null
                 }
 
                 override fun onAnimationCancel(animation: Animator?) {
                 }
 
                 override fun onAnimationStart(animation: Animator?) {
-                    imageToReveal.postDelayed({
-                        disableImageViews()
-                    }, 200)
 
                 }
             }
@@ -164,6 +166,7 @@ class MenuActivity : AppCompatActivity(), ImageRevealer {
         )
 
         imageToReveal.postDelayed({
+
             imageToReveal.visibility = View.VISIBLE
             anim?.start()
         }, 280)
@@ -178,6 +181,7 @@ class MenuActivity : AppCompatActivity(), ImageRevealer {
         translateAnimation.duration = 2000
         translateAnimation.fillAfter = true
 
+        disableImageViews()
         menu_tool_bar.startAnimation(translateAnimation)
         findViewById<ImageView>(id).startAnimation(translateAnimation)
 
@@ -199,7 +203,8 @@ class MenuActivity : AppCompatActivity(), ImageRevealer {
         val finalTranslation = defaultYBottom_IV - firstView.height
 
         val translateAnimation = TranslateAnimation(
-            0F, 0F, firstView.translationY, firstView.translationY + firstView.height)
+            0F, 0F, firstView.translationY, firstView.translationY + firstView.height
+        )
         translateAnimation.duration = 1000
         translateAnimation.fillAfter = true
 
