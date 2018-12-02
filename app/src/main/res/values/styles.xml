@@ -11,7 +11,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>-->
-    <style name="AppThemeNoActionBar" parent="@style/Theme.AppCompat.Light">
+    <style name="AppThemeNoActionBar" parent="@style/Theme.MaterialComponents.Light.NoActionBar">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowFullscreen">false</item>
@@ -21,7 +21,7 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
-    <style name="test_answer_style">
+    <style name="test_answer_style" parent="TextAppearance.MaterialComponents.Body1">
 
         <item name="android:textSize">15sp</item>
         <item name="android:padding">20dp</item>

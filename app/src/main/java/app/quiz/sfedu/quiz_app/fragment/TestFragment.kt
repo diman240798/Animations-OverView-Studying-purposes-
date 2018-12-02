@@ -2,6 +2,7 @@ package app.quiz.sfedu.quiz_app.fragment
 
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -33,6 +34,9 @@ class TestFragment() : Fragment(), View.OnClickListener {
     private var color: Int = 0
     var hashMap = mutableMapOf<Int, Boolean>()
 
+    private lateinit var textColorsDefault: ColorStateList
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = LayoutInflater.from(context).inflate(R.layout.test_layout, container, false)
         return view
@@ -50,6 +54,8 @@ class TestFragment() : Fragment(), View.OnClickListener {
         answer_2 = view.findViewById<TextView>(R.id.test_answer_2_tw)
         answer_3 = view.findViewById<TextView>(R.id.test_answer_3_tw)
         answer_4 = view.findViewById<TextView>(R.id.test_answer_4_tw)
+
+        textColorsDefault = answer_1.textColors
 
         view.findViewById<View>(R.id.divider1).setBackgroundColor(color)
         view.findViewById<View>(R.id.divider2).setBackgroundColor(color)
@@ -69,15 +75,22 @@ class TestFragment() : Fragment(), View.OnClickListener {
         answer_4.setOnClickListener(this)
     }
 
+
     fun setData(question: QuestionModel?) {
         if (question != null) {
             rightAnswer = question.answerNumber
             this.questionUI.text = question.question
 
 
+            // load animation
             val animation = AnimationUtils.loadAnimation(context, R.anim.fade_in_quick)
-
+            // start anim on question
             questionUI.startAnimation(animation)
+            // post background changes
+            if (questionUI.background == null) {
+                questionUI.setBackgroundColor(Color.parseColor("#d2cdcd"))
+            }
+
             questionUI.animation.setAnimationListener(
                 object : Animation.AnimationListener {
                     override fun onAnimationRepeat(animation: Animation?) {
@@ -115,12 +128,9 @@ class TestFragment() : Fragment(), View.OnClickListener {
         }
     }
 
-    private var textColors: ColorStateList? = null
-
     override fun onClick(v: View?) {
         val tag = v?.getTag(tagKey) as Int
         hashMap.put(question?.id!!, true)
-        textColors = answer_1.textColors
         question!!.chosenAnswer = tag
         setAnswersColors(tag)
         disableClicks()
@@ -157,11 +167,11 @@ class TestFragment() : Fragment(), View.OnClickListener {
     }
 
     private fun setDefaultColors() {
-        if (textColors != null) {
-            answer_1.setTextColor(textColors)
-            answer_2.setTextColor(textColors)
-            answer_3.setTextColor(textColors)
-            answer_4.setTextColor(textColors)
+        if (textColorsDefault != null) {
+            answer_1.setTextColor(textColorsDefault)
+            answer_2.setTextColor(textColorsDefault)
+            answer_3.setTextColor(textColorsDefault)
+            answer_4.setTextColor(textColorsDefault)
         }
     }
 
