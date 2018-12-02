@@ -34,6 +34,7 @@ class MenuActivity : AppCompatActivity(), ImageRevealer {
     )
     var color = R.color.orange
     private var Color: Int = 0
+    lateinit var imageViews: ArrayList<ImageView>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppThemeNoActionBar)
@@ -43,6 +44,7 @@ class MenuActivity : AppCompatActivity(), ImageRevealer {
         Color = resources.getColor(R.color.orange_status)
         menu_sign_place_holder.setContentId(R.id.menu_bottom_cpp_iv)
 
+
         imageToReveal = findViewById<ImageView>(R.id.menu_image_to_reveal)
         itemsApapter = ItemsAdapter(this, this)
         itemsApapter.items = data
@@ -51,6 +53,7 @@ class MenuActivity : AppCompatActivity(), ImageRevealer {
         val gridLayoutManager = GridLayoutManager(this, 3, VERTICAL, false)
         recyclerView.layoutManager = gridLayoutManager
 
+        imageViews = arrayListOf<ImageView>(menu_bottom_java_iv, menu_bottom_cpp_iv, menu_bottom_python_iv)
 
         /*val spanCount = 3 // 3 columns
         val spacing = 50 // 50px
@@ -77,7 +80,7 @@ class MenuActivity : AppCompatActivity(), ImageRevealer {
                 drawable = R.drawable.ripple_orange
                 colorStatus = R.color.orange_status
             }
-            menu_bottom_cpp_java.id -> {
+            menu_bottom_java_iv.id -> {
                 val red = R.color.red
                 if (color == red)
                     return
@@ -86,7 +89,7 @@ class MenuActivity : AppCompatActivity(), ImageRevealer {
                 drawable = R.drawable.ripple_red
                 colorStatus = R.color.red_status
             }
-            menu_bottom_cpp_python.id -> {
+            menu_bottom_python_iv.id -> {
                 val green = R.color.green
                 if (color == green)
                     return
@@ -113,7 +116,7 @@ class MenuActivity : AppCompatActivity(), ImageRevealer {
     }
 
     private var defaultYforToolBar: Float = 0F
-    private var defaultYLanguageSign: Float = 0F
+    private var defaultYBottom_IV: Float = 0F
 
     override fun revealImage(cx: Int, cy: Int, finalRadius: Float, testNumber: Int) {
         anim = ViewAnimationUtils.createCircularReveal(imageToReveal, cx, cy, 0f, finalRadius)
@@ -136,10 +139,11 @@ class MenuActivity : AppCompatActivity(), ImageRevealer {
                         val translateAnimationRestore = TranslateAnimation(
                             0F, 0F,
                             defaultYforToolBar - menu_tool_bar.height, defaultYforToolBar
-                            )
-                        translateAnimationRestore.duration = 2000
+                        )
+                        translateAnimationRestore.duration = 1000
                         translateAnimationRestore.fillAfter = true
 
+                        enableImageViews()
                         menu_tool_bar.startAnimation(translateAnimationRestore)
                         findViewById<ImageView>(id).startAnimation(translateAnimationRestore)
                     }, 600)
@@ -150,8 +154,13 @@ class MenuActivity : AppCompatActivity(), ImageRevealer {
                 }
 
                 override fun onAnimationStart(animation: Animator?) {
+                    imageToReveal.postDelayed({
+                        disableImageViews()
+                    }, 200)
+
                 }
             }
+
         )
 
         imageToReveal.postDelayed({
@@ -160,7 +169,7 @@ class MenuActivity : AppCompatActivity(), ImageRevealer {
         }, 280)
 
         defaultYforToolBar = menu_tool_bar.y
-        defaultYLanguageSign = menu_sign_place_holder.y
+        defaultYBottom_IV = menu_sign_place_holder.y
 
         val translateAnimation = TranslateAnimation(
             0F, 0F,
@@ -172,7 +181,55 @@ class MenuActivity : AppCompatActivity(), ImageRevealer {
         menu_tool_bar.startAnimation(translateAnimation)
         findViewById<ImageView>(id).startAnimation(translateAnimation)
 
+    }
 
 
+    fun disableImageViews() {
+        var viewsToAnimate = ArrayList<ImageView>()
+
+        for (view in imageViews) {
+            view.isEnabled = false
+            if (view.id != id) {
+                viewsToAnimate.add(view)
+            }
+        }
+
+        val firstView = viewsToAnimate[0]
+        defaultYBottom_IV = firstView.y
+        val finalTranslation = defaultYBottom_IV - firstView.height
+
+        val translateAnimation = TranslateAnimation(
+            0F, 0F, firstView.translationY, firstView.translationY + firstView.height)
+        translateAnimation.duration = 1000
+        translateAnimation.fillAfter = true
+
+        for (view in viewsToAnimate) {
+            view.startAnimation(translateAnimation)
+        }
+    }
+
+    fun enableImageViews() {
+        var viewsToAnimate = ArrayList<ImageView>()
+
+        for (view in imageViews) {
+            view.isEnabled = true
+            if (view.id != id) {
+                viewsToAnimate.add(view)
+            }
+        }
+
+
+        val firstView = viewsToAnimate[0]
+
+        val translateAnimation = TranslateAnimation(
+            0F, 0F, firstView.translationY + firstView.height, firstView.translationY
+        )
+        translateAnimation.duration = 1000
+        translateAnimation.fillAfter = true
+
+
+        for (view in viewsToAnimate) {
+            view.startAnimation(translateAnimation)
+        }
     }
 }

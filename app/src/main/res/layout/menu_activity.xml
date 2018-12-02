@@ -5,7 +5,6 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/menu_container"
         android:background="#fff"
-        android:animateLayoutChanges="true"
         tools:context=".activity.MenuActivity"
         android:layout_width="match_parent" android:layout_height="match_parent">
 
@@ -75,7 +74,7 @@
             android:onClick="setLanguage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/menu_bottom_cpp_java"
+            app:layout_constraintEnd_toStartOf="@id/menu_bottom_java_iv"
             android:id="@+id/menu_bottom_cpp_iv"
             android:src="@drawable/cpp_header_tpr"
             android:layout_width="0dp"
@@ -86,8 +85,8 @@
             android:onClick="setLanguage"
             app:layout_constraintStart_toEndOf="@+id/menu_bottom_cpp_iv"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/menu_bottom_cpp_python"
-            android:id="@+id/menu_bottom_cpp_java"
+            app:layout_constraintEnd_toStartOf="@+id/menu_bottom_python_iv"
+            android:id="@+id/menu_bottom_java_iv"
             android:src="@drawable/java_header_new"
             android:layout_width="0dp"
             android:layout_height="?android:attr/actionBarSize"/>
@@ -95,10 +94,10 @@
             android:padding="5dp"
             app:layout_constraintHorizontal_bias="1"
             android:onClick="setLanguage"
-            app:layout_constraintStart_toEndOf="@+id/menu_bottom_cpp_java"
+            app:layout_constraintStart_toEndOf="@+id/menu_bottom_java_iv"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:id="@+id/menu_bottom_cpp_python"
+            android:id="@+id/menu_bottom_python_iv"
             android:src="@drawable/python_header"
             android:layout_width="0dp"
             android:layout_height="?android:attr/actionBarSize"/>
