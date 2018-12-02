@@ -1,43 +1,49 @@
 package app.quiz.sfedu.quiz_app.activity
 
+import android.animation.Animator
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.transition.TransitionManager
 import android.view.View
+import android.view.ViewAnimationUtils
 import android.widget.GridLayout.VERTICAL
 import android.widget.ImageView
 import app.quiz.sfedu.quiz_app.R
 import app.quiz.sfedu.quiz_app.list.Item
 import app.quiz.sfedu.quiz_app.list.ItemsAdapter
+import app.quiz.sfedu.quiz_app.listeners.ImageRevealer
 import kotlinx.android.synthetic.main.menu_activity.*
 
 
-class MenuActivity : AppCompatActivity() {
+class MenuActivity : AppCompatActivity(), ImageRevealer {
 
+    // Views
+    private lateinit var imageToReveal: ImageView
     lateinit var itemsApapter: ItemsAdapter
-    lateinit var animationStopper: Runnable
+
+    private var anim: Animator? = null
 
     var data: List<Item> = listOf(
         Item(1), Item(2), Item(3),
         Item(4), Item(5), Item(6),
         Item(7), Item(8)
     )
-
     var color = R.color.orange
-
+    private var Color: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppThemeNoActionBar)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.menu_activity)
 
+        Color = resources.getColor(R.color.orange_status)
         menu_sign_place_holder.setContentId(R.id.menu_bottom_cpp_iv)
 
-        val imageToReveal = findViewById<ImageView>(R.id.menu_image_to_reveal)
-        itemsApapter = ItemsAdapter(this, imageToReveal)
-        animationStopper = itemsApapter
+        imageToReveal = findViewById<ImageView>(R.id.menu_image_to_reveal)
+        itemsApapter = ItemsAdapter(this, this)
         itemsApapter.items = data
         var recyclerView = menu_recycler_view as RecyclerView;
         recyclerView.adapter = itemsApapter
@@ -91,7 +97,7 @@ class MenuActivity : AppCompatActivity() {
         menu_sign_place_holder.setContentId(it.id)
         it.postDelayed({
             menu_tool_bar.setBackgroundResource(color)
-            val Color = resources.getColor(colorStatus)
+            Color = resources.getColor(colorStatus)
 
             window.statusBarColor = Color
             itemsApapter.changeColor(Color, drawable)
@@ -99,7 +105,41 @@ class MenuActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        animationStopper.run()
+        anim?.removeAllListeners()
         super.onBackPressed()
+    }
+
+    override fun revealImage(cx: Int, cy: Int, finalRadius: Float, testNumber: Int) {
+        anim = ViewAnimationUtils.createCircularReveal(imageToReveal, cx, cy, 0f, finalRadius)
+        anim?.duration = 2000
+
+
+        anim?.addListener(
+            object : Animator.AnimatorListener {
+                override fun onAnimationRepeat(animation: Animator?) {
+
+                }
+
+                override fun onAnimationEnd(animation: Animator?) {
+                    val intent = Intent(this@MenuActivity, TestActivity::class.java)
+                    intent.putExtra("number", testNumber)
+                    intent.putExtra("color", Color)
+                    startActivity(intent)
+                    imageToReveal.postDelayed({ imageToReveal.visibility = View.GONE }, 600)
+
+                }
+
+                override fun onAnimationCancel(animation: Animator?) {
+                }
+
+                override fun onAnimationStart(animation: Animator?) {
+                }
+            }
+        )
+
+        imageToReveal.postDelayed({
+            imageToReveal.visibility = View.VISIBLE
+            anim?.start()
+        }, 280)
     }
 }
