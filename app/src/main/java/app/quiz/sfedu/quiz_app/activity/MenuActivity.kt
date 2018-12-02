@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView
 import android.transition.TransitionManager
 import android.view.View
 import android.view.ViewAnimationUtils
+import android.view.animation.TranslateAnimation
 import android.widget.GridLayout.VERTICAL
 import android.widget.ImageView
 import app.quiz.sfedu.quiz_app.R
@@ -57,9 +58,11 @@ class MenuActivity : AppCompatActivity(), ImageRevealer {
         recyclerView.addItemDecoration(GridSpacingItemDecoration(spanCount, spacing, includeEdge))*/
     }
 
+    private var id: Int = R.id.menu_bottom_cpp_iv
+
     fun setLanguage(it: View) {
 
-        val id = it.id;
+        id = it.id;
         var drawable = R.drawable.ripple_orange
         var colorStatus = R.color.orange_status
 
@@ -109,6 +112,9 @@ class MenuActivity : AppCompatActivity(), ImageRevealer {
         super.onBackPressed()
     }
 
+    private var defaultYforToolBar: Float = 0F
+    private var defaultYLanguageSign: Float = 0F
+
     override fun revealImage(cx: Int, cy: Int, finalRadius: Float, testNumber: Int) {
         anim = ViewAnimationUtils.createCircularReveal(imageToReveal, cx, cy, 0f, finalRadius)
         anim?.duration = 2000
@@ -125,7 +131,18 @@ class MenuActivity : AppCompatActivity(), ImageRevealer {
                     intent.putExtra("number", testNumber)
                     intent.putExtra("color", Color)
                     startActivity(intent)
-                    imageToReveal.postDelayed({ imageToReveal.visibility = View.GONE }, 600)
+                    imageToReveal.postDelayed({
+                        imageToReveal.visibility = View.GONE
+                        val translateAnimationRestore = TranslateAnimation(
+                            0F, 0F,
+                            defaultYforToolBar - menu_tool_bar.height, defaultYforToolBar
+                            )
+                        translateAnimationRestore.duration = 2000
+                        translateAnimationRestore.fillAfter = true
+
+                        menu_tool_bar.startAnimation(translateAnimationRestore)
+                        findViewById<ImageView>(id).startAnimation(translateAnimationRestore)
+                    }, 600)
 
                 }
 
@@ -141,5 +158,21 @@ class MenuActivity : AppCompatActivity(), ImageRevealer {
             imageToReveal.visibility = View.VISIBLE
             anim?.start()
         }, 280)
+
+        defaultYforToolBar = menu_tool_bar.y
+        defaultYLanguageSign = menu_sign_place_holder.y
+
+        val translateAnimation = TranslateAnimation(
+            0F, 0F,
+            defaultYforToolBar, defaultYforToolBar - menu_tool_bar.height
+        )
+        translateAnimation.duration = 2000
+        translateAnimation.fillAfter = true
+
+        menu_tool_bar.startAnimation(translateAnimation)
+        findViewById<ImageView>(id).startAnimation(translateAnimation)
+
+
+
     }
 }
